@@ -1,5 +1,3 @@
-GBrowser
-
 GBrowser is a basic custom web browser implemented in Python using PySide6 and PySide6 WebEngine. It is a frameless, acrylic-style browser for Windows with a tabbed interface and minimal navigation features.
 
 Overview:
