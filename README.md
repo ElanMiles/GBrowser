@@ -25,6 +25,8 @@ Usage:
 * Drag the title bar to move the window or double-click to maximize/restore.
 * Close a tab with the `x` on the tab.
 
+Note: For the best visual experience, it is highly recommended to use the **dark** theme in Windows 11. Please also be aware that this project is still under active development and may contain bugs or incomplete features.
+
 License:
 MIT License
 
