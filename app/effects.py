@@ -76,9 +76,7 @@ def enable_acrylic(hwnd: int, color: int = 0x661F2937) -> bool:
     try:
         accent = ACCENT_POLICY()
         accent.AccentState = ACCENT_ENABLE_ACRYLICBLURBEHIND
-        # AccentFlags: 2 — enable corner rounding / composition? (обычное значение)
         accent.AccentFlags = 2
-        # GradientColor ожидает uint32: 0xAABBGGRR
         accent.GradientColor = ctypes.c_uint32(color)
 
         data = WINDOWCOMPOSITIONATTRIBDATA()
@@ -152,3 +150,4 @@ if __name__ == "__main__":
     print("app.effects - a module with acrylic functions. Import it into your GUI code and use it.:")
     print("  from app.effects import apply_acrylic_to_widget, enable_acrylic")
     print("  apply_acrylic_to_widget(window, color=0x661F2937)")
+    
