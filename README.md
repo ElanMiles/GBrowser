@@ -21,6 +21,7 @@ Usage:
 
 * Click `+` to open a new tab.
 * Use back/forward/reload buttons to navigate.
+* Use the gear button to open the settings
 * Enter a URL and press Enter to load a page.
 * Drag the title bar to move the window or double-click to maximize/restore.
 * Close a tab with the `x` on the tab.
