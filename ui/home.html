@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: linear-gradient(160deg, #0d0d1a 0%, #1a1a35 50%, #0d1a2e 100%);
+            color: #e8e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .background-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(74, 108, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            z-index: 1;
+            width: 100%;
+            max-width: 720px;
+            padding: 20px;
+        }
+
+        .time-block {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .clock {
+            font-size: 5.5rem;
+            font-weight: 200;
+            letter-spacing: -2px;
+            color: #ffffff;
+            text-shadow: 0 0 40px rgba(100, 140, 255, 0.3);
+            line-height: 1;
+        }
+
+        .date-label {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+
+        .search-wrapper {
+            width: 100%;
+            max-width: 580px;
+            margin-bottom: 40px;
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 50px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box:focus-within {
+            border-color: rgba(100, 140, 255, 0.5);
+            box-shadow: 0 0 0 3px rgba(100, 140, 255, 0.1);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 14px 24px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .search-btn {
+            padding: 14px 24px;
+            background: rgba(74, 108, 255, 0.7);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: background 0.2s;
+            letter-spacing: 0.3px;
+        }
+
+        .search-btn:hover {
+            background: rgba(74, 108, 255, 0.95);
+        }
+
+        .engine-tabs {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            justify-content: center;
+        }
+
+        .engine-tab {
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: rgba(255,255,255,0.4);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+
+        .engine-tab.active, .engine-tab:hover {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.8);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .quick-links-title {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 14px;
+            align-self: flex-start;
+            width: 100%;
+            max-width: 580px;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            width: 100%;
+            max-width: 580px;
+        }
+
+        .quick-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 18px 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            text-decoration: none;
+            color: white;
+            transition: all 0.18s;
+            cursor: pointer;
+            gap: 10px;
+        }
+
+        .quick-link:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .quick-link:active {
+            transform: translateY(0px);
+        }
+
+        .link-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .link-name {
+            font-size: 0.78rem;
+            opacity: 0.65;
+            letter-spacing: 0.2px;
+        }
+
+        .yt { background: linear-gradient(135deg, #c4302b, #ff5050); }
+        .gg { background: linear-gradient(135deg, #4285f4, #34a853); }
+        .gh { background: linear-gradient(135deg, #24292e, #40484f); }
+        .rd { background: linear-gradient(135deg, #ff4500, #ff6534); }
+        .tw { background: linear-gradient(135deg, #1da1f2, #0d8bd9); }
+        .wp { background: linear-gradient(135deg, #3a3a3a, #555); }
+        .tc { background: linear-gradient(135deg, #6441a5, #9067cc); }
+        .gm { background: linear-gradient(135deg, #c71610, #ea4335); }
+    </style>
+</head>
+<body>
+    <div class="background-glow"></div>
+
+    <div class="container">
+        <div class="time-block">
+            <div class="clock" id="clock">00:00</div>
+            <div class="date-label" id="date-label"></div>
+        </div>
+
+        <div class="search-wrapper">
+            <div class="search-box">
+                <input class="search-input" type="text" id="search-input"
+                       placeholder="Search or enter a URL..."
+                       autofocus
+                       onkeydown="if(event.key==='Enter') doSearch()">
+                <button class="search-btn" onclick="doSearch()">Search</button>
+            </div>
+            <div class="engine-tabs">
+                <button class="engine-tab active" onclick="setEngine(this,'google')">Google</button>
+                <button class="engine-tab" onclick="setEngine(this,'bing')">Bing</button>
+                <button class="engine-tab" onclick="setEngine(this,'duckduckgo')">DuckDuckGo</button>
+                <button class="engine-tab" onclick="setEngine(this,'youtube')">YouTube</button>
+            </div>
+        </div>
+
+        <div class="quick-links-title">Quick Access</div>
+
+        <div class="quick-links">
+            <a class="quick-link" href="https://www.youtube.com">
+                <div class="link-icon yt">YT</div>
+                <div class="link-name">YouTube</div>
+            </a>
+            <a class="quick-link" href="https://www.google.com">
+                <div class="link-icon gg">G</div>
+                <div class="link-name">Google</div>
+            </a>
+            <a class="quick-link" href="https://github.com">
+                <div class="link-icon gh">GH</div>
+                <div class="link-name">GitHub</div>
+            </a>
+            <a class="quick-link" href="https://www.reddit.com">
+                <div class="link-icon rd">Rd</div>
+                <div class="link-name">Reddit</div>
+            </a>
+            <a class="quick-link" href="https://twitter.com">
+                <div class="link-icon tw">X</div>
+                <div class="link-name">Twitter / X</div>
+            </a>
+            <a class="quick-link" href="https://www.wikipedia.org">
+                <div class="link-icon wp">W</div>
+                <div class="link-name">Wikipedia</div>
+            </a>
+            <a class="quick-link" href="https://www.twitch.tv">
+                <div class="link-icon tc">Tv</div>
+                <div class="link-name">Twitch</div>
+            </a>
+            <a class="quick-link" href="https://mail.google.com">
+                <div class="link-icon gm">M</div>
+                <div class="link-name">Gmail</div>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        var currentEngine = 'google';
+        var engines = {
+            google: 'https://www.google.com/search?q=',
+            bing: 'https://www.bing.com/search?q=',
+            duckduckgo: 'https://duckduckgo.com/?q=',
+            youtube: 'https://www.youtube.com/results?search_query='
+        };
+
+        function setEngine(btn, engine) {
+            document.querySelectorAll('.engine-tab').forEach(function(b) {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+            currentEngine = engine;
+        }
+
+        function doSearch() {
+            var q = document.getElementById('search-input').value.trim();
+            if (!q) return;
+            var isUrl = /^(https?:\/\/)/.test(q) || (/^[\w.-]+\.[a-z]{2,}(\/|$)/i.test(q) && !q.includes(' '));
+            if (isUrl) {
+                window.location.href = /^https?:\/\//.test(q) ? q : 'https://' + q;
+            } else {
+                window.location.href = engines[currentEngine] + encodeURIComponent(q);
+            }
+        }
+
+        function updateClock() {
+            var now = new Date();
+            var h = String(now.getHours()).padStart(2, '0');
+            var m = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = h + ':' + m;
+            var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            document.getElementById('date-label').textContent =
+                days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear();
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
