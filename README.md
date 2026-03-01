@@ -1,37 +1,142 @@
-GBrowser is a basic custom web browser implemented in Python using PySide6 and PySide6 WebEngine. It is a frameless, acrylic-style browser for Windows with a tabbed interface and minimal navigation features.
+# GBrowser
 
-Overview:
+A lightweight, frameless web browser built with Python, PySide6, and Chromium via Qt WebEngine. Designed for Windows with a native acrylic blur effect and a clean dark interface.
 
-* Implements a **custom acrylic blur background** for Windows using ctypes. This may fail silently on unsupported systems.
-* Uses a **frameless window** with a custom title bar containing an icon, title, back/forward/reload buttons, new tab button, URL bar, and window control buttons.
-* Supports **tabbed browsing** with closable and movable tabs, but tabs are basic `QWebEngineView` instances.
-* URL input automatically prepends `https://` if the user does not specify a scheme.
-* Window dragging and maximize/restore behavior is manually handled in the title bar mouse events.
-* Minimal styling with hardcoded colors and sizes; no themes or user customization.
-* No built-in history, bookmarks, or advanced browser features.
+---
 
-Limitations:
+## Features
 
-* Only tested on Windows 11 for the acrylic blur effect.
-* No error handling for invalid URLs or network errors.
-* Single font hardcoded to Segoe UI.
-* No persistent storage; all tabs are temporary.
+**Browsing**
+- Tabbed browsing with closable, reorderable tabs
+- Custom tab panel with scroll support for many open tabs
+- Back, forward, reload, and home navigation
+- Smart URL bar — detects URLs vs search queries automatically
+- Configurable default search engine: Google, Bing, DuckDuckGo, YouTube
+- Full page zoom with Ctrl+Plus / Ctrl+Minus / Ctrl+0
+- Right-click context menu with back, forward, reload, open in new tab, copy link, view source, save page, and inspect element
 
-Usage:
+**Home Page**
+- Built-in new tab page with a live clock and date
+- Integrated search bar with engine switcher
+- Quick access tiles for popular sites
+- Fully local — no network requests, loads instantly
 
-* Click `+` to open a new tab.
-* Use back/forward/reload buttons to navigate.
-* Use the gear button to open the settings
-* Enter a URL and press Enter to load a page.
-* Drag the title bar to move the window or double-click to maximize/restore.
-* Close a tab with the `x` on the tab.
+**Fullscreen Video**
+- HTML5 fullscreen API is supported, so YouTube and other video sites work in fullscreen
+- The browser chrome (titlebar and tab panel) hides automatically on fullscreen entry
+- Press F11 or Escape to exit
 
-Note: For the best visual experience, it is highly recommended to use the **dark** theme in Windows 11. Please also be aware that this project is still under active development and may contain bugs or incomplete features.
+**Find in Page**
+- Ctrl+F opens the find bar at the bottom of the window
+- Forward and backward search with visual match feedback
+- Escape closes the bar and clears highlights
 
-License:
-MIT License
+**Settings**
+- Adjustable acrylic transparency with a live preview slider
+- Default zoom level
+- Default search engine
+- Custom home page URL (leave empty to use the built-in home page)
+- Toggle for the system transparency effect
 
-Acknowledgements:
+**Window**
+- Frameless window with custom titlebar
+- Drag to move, double-click to maximize or restore
+- Native Windows acrylic blur effect via SetWindowCompositionAttribute
+- Loading progress bar beneath the titlebar
 
-* Built using PySide6 for GUI and PySide6 WebEngine for web content.
-* Acrylic effect code adapted from Windows API documentation.
+---
+
+## Requirements
+
+- Windows 10 or Windows 11 (acrylic effect requires Windows 10 1903 or later)
+- Python 3.10 or newer
+- PySide6
+- PySide6-WebEngine
+
+Install dependencies:
+
+```
+pip install PySide6 PySide6-WebEngine
+```
+
+---
+
+## Project Structure
+
+```
+GBrowser/
+├── main.py                 Entry point
+├── app/
+│   ├── __init__.py
+│   ├── window.py           Main browser window
+│   ├── tabs.py             Tab and page management
+│   ├── tab_panel.py        Custom tab strip widget
+│   ├── titlebar.py         Custom titlebar with controls and progress bar
+│   ├── browser_view.py     QWebEngineView subclass with fullscreen and download handling
+│   ├── find_bar.py         Find in page widget
+│   ├── settings.py         Settings dialog
+│   └── effects.py          Windows acrylic blur via ctypes
+└── ui/
+    ├── home.html           Built-in home/new tab page
+    └── styles.qss          Application stylesheet
+```
+
+---
+
+## Running
+
+```
+cd GBrowser
+python main.py
+```
+
+---
+
+## Building a Standalone Executable
+
+Install PyInstaller:
+
+```
+pip install pyinstaller
+```
+
+Build:
+
+```
+pyinstaller --noconfirm --onefile --windowed --name GBrowser --add-data "ui;ui" main.py
+```
+
+The executable will be placed in the `dist/` folder. The `--add-data "ui;ui"` flag bundles the home page and stylesheet inside the binary. File size will be approximately 150-200 MB due to the embedded Chromium engine.
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut              | Action                        |
+|-----------------------|-------------------------------|
+| Ctrl+T                | New tab                       |
+| Ctrl+W                | Close current tab             |
+| Ctrl+R / F5           | Reload                        |
+| Ctrl+L                | Focus URL bar                 |
+| Ctrl+F                | Find in page                  |
+| Ctrl+Home             | Go to home page               |
+| Alt+Left              | Back                          |
+| Alt+Right             | Forward                       |
+| Ctrl+Tab              | Next tab                      |
+| Ctrl+Shift+Tab        | Previous tab                  |
+| Ctrl+1 through Ctrl+8 | Switch to tab by number       |
+| Ctrl+9                | Switch to last tab            |
+| Ctrl+Plus / Ctrl+=    | Zoom in                       |
+| Ctrl+Minus            | Zoom out                      |
+| Ctrl+0                | Reset zoom                    |
+| F11                   | Toggle fullscreen             |
+| Escape                | Exit fullscreen or close find |
+
+---
+
+## Notes
+
+- The acrylic effect is Windows-only and may not work on all hardware configurations. The browser functions normally without it.
+- For the best visual result, use Windows 11 with the dark system theme enabled.
+- All tabs are session-only. There is no persistent history or bookmark storage yet.
+- The browser shares a single WebEngine profile across all tabs. Downloads go to the system Downloads folder by default.
