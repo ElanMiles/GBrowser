@@ -49,15 +49,6 @@ A lightweight, frameless web browser built with Python, PySide6, and Chromium vi
 ## Requirements
 
 - Windows 10 or Windows 11 (acrylic effect requires Windows 10 1903 or later)
-- Python 3.10 or newer
-- PySide6
-- PySide6-WebEngine
-
-Install dependencies:
-
-```
-pip install PySide6 PySide6-WebEngine
-```
 
 ---
 
@@ -80,33 +71,6 @@ GBrowser/
     ├── home.html           Built-in home/new tab page
     └── styles.qss          Application stylesheet
 ```
-
----
-
-## Running
-
-```
-cd GBrowser
-python main.py
-```
-
----
-
-## Building a Standalone Executable
-
-Install PyInstaller:
-
-```
-pip install pyinstaller
-```
-
-Build:
-
-```
-pyinstaller --noconfirm --onefile --windowed --name GBrowser --add-data "ui;ui" main.py
-```
-
-The executable will be placed in the `dist/` folder. The `--add-data "ui;ui"` flag bundles the home page and stylesheet inside the binary. File size will be approximately 150-200 MB due to the embedded Chromium engine.
 
 ---
 
@@ -139,4 +103,3 @@ The executable will be placed in the `dist/` folder. The `--add-data "ui;ui"` fl
 - The acrylic effect is Windows-only and may not work on all hardware configurations. The browser functions normally without it.
 - For the best visual result, use Windows 11 with the dark system theme enabled.
 - All tabs are session-only. There is no persistent history or bookmark storage yet.
-- The browser shares a single WebEngine profile across all tabs. Downloads go to the system Downloads folder by default.
