@@ -251,7 +251,7 @@ GBrowser is built using:
 
 The Python application provides the browser UI and application logic, while the C++ native module provides Windows-specific functionality and Discord IPC.
 
-## Project Structure
+## Project Structure (*Composed using AI*)
 ```text
 GBrowser/
 ├── main.py
